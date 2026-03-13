@@ -1,0 +1,37 @@
+<%@ page import="conn.*" %>
+<%@ page import="java.sql.*" %>
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<%
+String id = request.getParameter("id");
+
+int i = 0;
+try {
+    Connection dbs = Conn.getCon();
+    String q = "delete from register where id=?";
+    PreparedStatement ps = dbs.prepareStatement(q);
+   
+    ps.setString(1, id);
+    i = ps.executeUpdate();
+} catch(Exception e) {
+    e.printStackTrace();
+}
+
+if(i > 0) {
+    response.sendRedirect("getAllRegistration.jsp");
+} else {
+    out.print("Something went wrong!");
+    RequestDispatcher rd = request.getRequestDispatcher("getAllRegistration.jsp");
+    rd.include(request, response);
+}
+%>
+</body>
+</html>
